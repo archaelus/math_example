@@ -69,6 +69,10 @@ init([]) ->
 %% @doc Call message handler callbacks
 %% @end
 %%--------------------------------------------------------------------
+handle_call(dump_state, _From, State) ->
+    {reply, {ok, State}, State};
+handle_call({set_accumulator, N}, _From, State) when is_integer(N) ->
+    {reply, ok, State#state{accumulator=N}};
 handle_call({add, Addend}, _From, S = #state{accumulator = N})
   when is_integer(N), is_integer(Addend) ->
     {reply, {ok, N+Addend}, S};
