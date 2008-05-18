@@ -67,7 +67,7 @@ init([]) ->
 %% @end
 %%--------------------------------------------------------------------
 handle_call(Call, _From, State) ->
-    %?WARN("Unexpected call ~p.", [Call]),
+    error_logger:warning_msg("Unexpected call ~p.", [Call]),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
