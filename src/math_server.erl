@@ -14,7 +14,8 @@
 
 %% API
 -export([start_link/0,
-         start/0]).
+         start/0,
+         add/1]).
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
@@ -37,6 +38,8 @@ start_link() ->
 start() ->
     gen_server:start({local, ?SERVER}, ?MODULE, [], []).
 
+add(Number) ->
+    gen_server:call(?SERVER, {add, Number}).
 
 %%====================================================================
 %% gen_server callbacks
@@ -66,6 +69,9 @@ init([]) ->
 %% @doc Call message handler callbacks
 %% @end
 %%--------------------------------------------------------------------
+handle_call({add, Addend}, _From, S = #state{accumulator = N})
+  when is_integer(N), is_integer(Addend) ->
+    {reply, {ok, N+Addend}, S};
 handle_call(Call, _From, State) ->
     error_logger:warning_msg("Unexpected call ~p.", [Call]),
     {noreply, State}.
