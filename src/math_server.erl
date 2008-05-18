@@ -13,13 +13,14 @@
 %-include_lib("eunit.hrl").
 
 %% API
--export([start_link/0]).
+-export([start_link/0,
+         start/0]).
 
 %% gen_server callbacks
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2,
          terminate/2, code_change/3]).
 
--record(state, {}).
+-record(state, {accumulator}).
 -define(SERVER, ?MODULE).
 
 %%====================================================================
@@ -32,6 +33,9 @@
 %%--------------------------------------------------------------------
 start_link() ->
     gen_server:start_link({local, ?SERVER}, ?MODULE, [], []).
+
+start() ->
+    gen_server:start({local, ?SERVER}, ?MODULE, [], []).
 
 
 %%====================================================================
@@ -63,7 +67,7 @@ init([]) ->
 %% @end
 %%--------------------------------------------------------------------
 handle_call(Call, _From, State) ->
-    ?WARN("Unexpected call ~p.", [Call]),
+    %?WARN("Unexpected call ~p.", [Call]),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
@@ -76,7 +80,7 @@ handle_call(Call, _From, State) ->
 %% @end
 %%--------------------------------------------------------------------
 handle_cast(Msg, State) ->
-    ?WARN("Unexpected cast ~p", [Msg]),
+    %?WARN("Unexpected cast ~p", [Msg]),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
@@ -89,7 +93,7 @@ handle_cast(Msg, State) ->
 %% @end
 %%--------------------------------------------------------------------
 handle_info(Info, State) ->
-    ?WARN("Unexpected info ~p", [Info]),
+    %?WARN("Unexpected info ~p", [Info]),
     {noreply, State}.
 
 %%--------------------------------------------------------------------
